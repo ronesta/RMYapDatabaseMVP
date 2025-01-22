@@ -159,7 +159,8 @@ final class CharacterTableViewCell: UITableViewCell {
         filter?.setValue(1.0, forKey: "inputIntensity")
 
         guard let outputImage = filter?.outputImage,
-              let cgImage = CIContext().createCGImage(outputImage, from: outputImage.extent) else {
+              let cgImage = CIContext().createCGImage(outputImage, from: outputImage.extent
+              ) else {
             return nil
         }
 
@@ -191,4 +192,3 @@ final class CharacterTableViewCell: UITableViewCell {
         }
     }
 }
-
