@@ -17,6 +17,7 @@ final class CharacterViewController: UIViewController {
 
     var presenter: CharacterPresenterProtocol?
     var tableViewDataSource: CharacterDataSourceProtocol?
+    // Cannot be injected with initializer, because presenter also needs CharacterViewController for his initializer
 
     override func viewDidLoad() {
         super.viewDidLoad()

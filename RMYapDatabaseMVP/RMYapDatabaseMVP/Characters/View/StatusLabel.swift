@@ -9,7 +9,7 @@ import Foundation
 import UIKit
 
 final class StatusLabel: UILabel {
-    var textInsets = UIEdgeInsets(top: 5, left: 9, bottom: 5, right: 9)
+    private var textInsets = UIEdgeInsets(top: 5, left: 9, bottom: 5, right: 9)
 
     override func drawText(in rect: CGRect) {
         let paddedRect = rect.inset(by: textInsets)

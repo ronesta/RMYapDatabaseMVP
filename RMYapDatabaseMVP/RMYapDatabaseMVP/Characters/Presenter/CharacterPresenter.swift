@@ -15,7 +15,7 @@ final class CharacterPresenter: CharacterPresenterProtocol {
 
     private var characters = [Character]()
 
-    init(view: CharacterViewProtocol,
+    init(view: CharacterViewProtocol?,
          networkManager: NetworkManagerProtocol,
          storageManager: StorageManagerProtocol
     ) {
@@ -38,12 +38,10 @@ final class CharacterPresenter: CharacterPresenterProtocol {
             networkManager.getCharacters { [weak self] result in
                 switch result {
                 case .success(let characters):
-                    DispatchQueue.main.async {
-                        self?.characters = characters
-                        self?.view?.updateCharacters(characters)
-                        characters.forEach { character in
-                            self?.storageManager.saveCharacter(character, key: "\(character.id)")
-                        }
+                    self?.characters = characters
+                    self?.view?.updateCharacters(characters)
+                    characters.forEach { character in
+                        self?.storageManager.saveCharacter(character, key: "\(character.id)")
                     }
                 case .failure(let error):
                     print("Failed to fetch characters: \(error.localizedDescription)")
