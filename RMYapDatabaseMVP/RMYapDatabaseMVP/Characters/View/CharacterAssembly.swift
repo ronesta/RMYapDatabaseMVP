@@ -6,24 +6,27 @@
 //
 
 import Foundation
-import UIKit
+import UIKit.UIViewController
 
 final class CharacterAssembly {
     func build() -> UIViewController {
-        let viewController = CharacterViewController()
         let storageManager = DatabaseManager()
-        let networkManager = NetworkManager(storageManager: storageManager)
+        let networkManager = NetworkManager()
+        let imageLoader = ImageLoader(storageManager: storageManager)
 
         let presenter = CharacterPresenter(
-            view: viewController,
             networkManager: networkManager,
             storageManager: storageManager
         )
 
-        let tableViewDataSource = CharacterTableViewDataSource(presenter: presenter)
+        let tableViewDataSource = CharacterTableViewDataSource(imageLoader: imageLoader)
 
-        viewController.presenter = presenter
-        viewController.tableViewDataSource = tableViewDataSource
+        let viewController = CharacterViewController(
+            presenter: presenter,
+            tableViewDataSource: tableViewDataSource
+        )
+
+        presenter.view = viewController
 
         let navigationController = UINavigationController(rootViewController: viewController)
         return navigationController

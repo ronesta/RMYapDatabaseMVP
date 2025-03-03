@@ -9,5 +9,6 @@ import Foundation
 
 protocol CharacterViewProtocol: AnyObject {
     func updateCharacters(_ characters: [Character])
+    
     func showError(_ message: String)
 }

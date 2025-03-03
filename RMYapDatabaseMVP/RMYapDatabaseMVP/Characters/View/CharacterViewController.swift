@@ -15,15 +15,26 @@ final class CharacterViewController: UIViewController {
         return tableView
     }()
 
-    var presenter: CharacterPresenterProtocol?
-    var tableViewDataSource: CharacterDataSourceProtocol?
-    // Cannot be injected with initializer, because presenter also needs CharacterViewController for his initializer
+    private let presenter: CharacterPresenterProtocol
+    private let tableViewDataSource: CharacterDataSourceProtocol
 
+    init(presenter: CharacterPresenterProtocol,
+         tableViewDataSource: CharacterDataSourceProtocol
+    ) {
+        self.presenter = presenter
+        self.tableViewDataSource = tableViewDataSource
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupNavigationBar()
         setupViews()
-        presenter?.viewDidLoad()
+        presenter.viewDidLoad()
     }
 
     private func setupNavigationBar() {
@@ -50,8 +61,7 @@ final class CharacterViewController: UIViewController {
 // MARK: - CharacterViewProtocol
 extension CharacterViewController: CharacterViewProtocol {
     func updateCharacters(_ characters: [Character]) {
-
-        tableViewDataSource?.characters = characters
+        tableViewDataSource.characters = characters
         tableView.reloadData()
     }
 

@@ -6,14 +6,13 @@
 //
 
 import Foundation
-import UIKit
 import YapDatabase
 
 final class DatabaseManager: StorageManagerProtocol {
     private let charactersKey = "charactersKey"
     private let charactersCollection = "characters"
     private let imagesCollection = "images"
-    private let charactersOrderCollection = "charactersOrder"
+    private let charactersIdsCollection = "charactersIdsCollection"
     private let database: YapDatabase
     private let connection: YapDatabaseConnection
 
@@ -42,17 +41,17 @@ final class DatabaseManager: StorageManagerProtocol {
         return database
     }
 
-    func saveCharacter(_ character: Character, key: String) {
+    func saveCharacter(_ character: Character) {
         connection.readWrite { transaction in
-            transaction.setObject(character, forKey: key, inCollection: charactersCollection)
+            transaction.setObject(character, forKey: "\(character.id)", inCollection: charactersCollection)
 
-            var order = transaction.object(
-                forKey: "order",
-                inCollection: charactersOrderCollection) as? [String] ?? []
+            var charactersIds = transaction.object(
+                forKey: charactersIdsCollection,
+                inCollection: charactersIdsCollection) as? [String] ?? []
 
-            if !order.contains(key) {
-                order.append(key)
-                transaction.setObject(order, forKey: "order", inCollection: charactersOrderCollection)
+            if !charactersIds.contains("\(character.id)") {
+                charactersIds.append("\(character.id)")
+                transaction.setObject(charactersIds, forKey: charactersIdsCollection, inCollection: charactersIdsCollection)
             }
         }
     }
@@ -68,11 +67,11 @@ final class DatabaseManager: StorageManagerProtocol {
         }
     }
 
-    func loadCharacter(key: String) -> Character? {
+    func loadCharacter(characterId: String) -> Character? {
         var character: Character?
 
         connection.read { transaction in
-            character = transaction.object(forKey: key, inCollection: charactersCollection) as? Character
+            character = transaction.object(forKey: characterId, inCollection: charactersCollection) as? Character
         }
         return character
     }
@@ -81,10 +80,10 @@ final class DatabaseManager: StorageManagerProtocol {
         var characters = [Character]()
 
         connection.read { transaction in
-            if let order = transaction.object(forKey: "order", inCollection: charactersOrderCollection) as? [String] {
-                for key in order {
+            if let charactersIds = transaction.object(forKey: charactersIdsCollection, inCollection: charactersIdsCollection) as? [String] {
+                for id in charactersIds {
                     if let character = transaction.object(
-                        forKey: key,
+                        forKey: id,
                         inCollection: charactersCollection) as? Character {
                         characters.append(character)
                     }
@@ -101,11 +100,11 @@ final class DatabaseManager: StorageManagerProtocol {
         }
     }
 
-    func loadImage(key: String) -> Data? {
+    func loadImage(characterId: String) -> Data? {
         var result: Data?
 
         connection.read { transaction in
-            if let data = transaction.object(forKey: key, inCollection: imagesCollection) as? Data {
+            if let data = transaction.object(forKey: characterId, inCollection: imagesCollection) as? Data {
                 result = data
             } else {
                 result = nil
@@ -117,9 +116,9 @@ final class DatabaseManager: StorageManagerProtocol {
 
 // MARK: extension DatabaseManager
 extension DatabaseManager {
-    func clearCharacter(key: String) {
+    func clearCharacter(characterId: String) {
         connection.readWrite { transaction in
-            transaction.removeObject(forKey: key, inCollection: charactersCollection)
+            transaction.removeObject(forKey: characterId, inCollection: charactersCollection)
         }
     }
 
@@ -129,9 +128,9 @@ extension DatabaseManager {
         }
     }
 
-    func clearImage(key: String) {
+    func clearImage(characterId: String) {
         connection.readWrite { transaction in
-            transaction.removeObject(forKey: key, inCollection: imagesCollection)
+            transaction.removeObject(forKey: characterId, inCollection: imagesCollection)
         }
     }
 }

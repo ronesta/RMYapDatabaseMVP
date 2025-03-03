@@ -8,11 +8,11 @@
 import Foundation
 
 protocol StorageManagerProtocol {
-    func saveCharacter(_ character: Character, key: String)
+    func saveCharacter(_ character: Character)
 
     func saveCharacters(_ characters: [Character])
 
-    func loadCharacter(key: String) -> Character?
+    func loadCharacter(characterId: String) -> Character?
 
     func loadCharacters() -> [Character]
 
@@ -20,7 +20,7 @@ protocol StorageManagerProtocol {
 
     func saveImage(_ image: Data, key: String)
 
-    func loadImage(key: String) -> Data?
+    func loadImage(characterId: String) -> Data?
 
-    func clearImage(key: String)
+    func clearImage(characterId: String)
 }
