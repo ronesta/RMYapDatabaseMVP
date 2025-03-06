@@ -11,11 +11,11 @@ import UIKit.UIViewController
 final class CharacterAssembly {
     func build() -> UIViewController {
         let storageManager = DatabaseManager()
-        let networkManager = NetworkManager()
+        let сharacterService = CharacterService()
         let imageLoader = ImageLoader(storageManager: storageManager)
 
         let presenter = CharacterPresenter(
-            networkManager: networkManager,
+            сharacterService: сharacterService,
             storageManager: storageManager
         )
 

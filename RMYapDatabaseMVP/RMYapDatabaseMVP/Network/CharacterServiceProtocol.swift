@@ -7,6 +7,6 @@
 
 import Foundation
 
-protocol NetworkManagerProtocol {
+protocol CharacterServiceProtocol {
     func getCharacters(completion: @escaping (Result<[Character], Error>) -> Void)
 }

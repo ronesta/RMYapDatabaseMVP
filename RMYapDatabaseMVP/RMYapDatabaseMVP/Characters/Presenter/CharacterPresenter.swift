@@ -10,15 +10,15 @@ import Foundation
 final class CharacterPresenter: CharacterPresenterProtocol {
     weak var view: CharacterViewProtocol?
 
-    private let networkManager: NetworkManagerProtocol
+    private let сharacterService: CharacterServiceProtocol
     private let storageManager: StorageManagerProtocol
 
     private var characters = [Character]()
 
-    init(networkManager: NetworkManagerProtocol,
+    init(сharacterService: CharacterServiceProtocol,
          storageManager: StorageManagerProtocol
     ) {
-        self.networkManager = networkManager
+        self.сharacterService = сharacterService
         self.storageManager = storageManager
     }
 
@@ -35,7 +35,7 @@ final class CharacterPresenter: CharacterPresenterProtocol {
             return
         }
 
-        networkManager.getCharacters { [weak self] result in
+        сharacterService.getCharacters { [weak self] result in
             switch result {
             case .success(let characters):
                 self?.characters = characters

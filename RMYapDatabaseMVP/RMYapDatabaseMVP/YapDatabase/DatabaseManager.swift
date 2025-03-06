@@ -114,24 +114,3 @@ final class DatabaseManager: StorageManagerProtocol {
     }
 }
 
-// MARK: extension DatabaseManager
-extension DatabaseManager {
-    func clearCharacter(characterId: String) {
-        connection.readWrite { transaction in
-            transaction.removeObject(forKey: characterId, inCollection: charactersCollection)
-        }
-    }
-
-    func clearCharacters() {
-        connection.readWrite { transaction in
-            transaction.removeAllObjects(inCollection: charactersCollection)
-        }
-    }
-
-    func clearImage(characterId: String) {
-        connection.readWrite { transaction in
-            transaction.removeObject(forKey: characterId, inCollection: imagesCollection)
-        }
-    }
-}
-

@@ -50,7 +50,8 @@ final class CharacterViewController: UIViewController {
         tableView.dataSource = tableViewDataSource
         tableView.delegate = self
         tableView.register(CharacterTableViewCell.self,
-                           forCellReuseIdentifier: CharacterTableViewCell.id)
+                           forCellReuseIdentifier: CharacterTableViewCell.id
+        )
 
         tableView.snp.makeConstraints { make in
             make.edges.equalToSuperview()

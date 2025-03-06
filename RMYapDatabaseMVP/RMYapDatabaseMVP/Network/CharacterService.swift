@@ -7,7 +7,7 @@
 
 import Foundation
 
-final class NetworkManager: NetworkManagerProtocol {
+final class CharacterService: CharacterServiceProtocol {
     private var counter = 1
 
     private let urlString = "https://rickandmortyapi.com/api/character"

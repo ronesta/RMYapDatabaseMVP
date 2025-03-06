@@ -16,11 +16,7 @@ protocol StorageManagerProtocol {
 
     func loadCharacters() -> [Character]
 
-    func clearCharacters()
-
     func saveImage(_ image: Data, key: String)
 
     func loadImage(characterId: String) -> Data?
-
-    func clearImage(characterId: String)
 }
